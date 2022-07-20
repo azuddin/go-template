@@ -3,7 +3,7 @@
 PID = /tmp/serving.pid
 
 serve: start
-	fswatch -or --event=Updated . | xargs -n1 -I {} make restart
+	fswatch -or --event=Updated -e ".*" -i ".*/[^.]*\\.go$$" . | xargs -n1 -I {} make restart
 
 kill:
 	-kill `pstree -p \`cat $(PID)\` | tr "\n" " " |sed "s/[^0-9]/ /g" |sed "s/\s\s*/ /g"` 
@@ -19,3 +19,9 @@ restart: kill before start
 	
 .PHONY: serve restart kill before start 
  
+start-docker:
+	docker-compose -f docker-compose-dev.yml build
+	docker-compose -f docker-compose-dev.yml up
+
+ssh:
+	docker-compose -f docker-compose-dev.yml exec app sh

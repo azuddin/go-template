@@ -1,6 +1,6 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
-FROM golang:1.12-alpine as base
+FROM golang:1.17-alpine as base
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 WORKDIR /home/app/src
@@ -13,6 +13,7 @@ WORKDIR /root
 RUN wget https://github.com/emcrisostomo/fswatch/releases/download/1.14.0/fswatch-1.14.0.tar.gz
 RUN tar -xvzf fswatch-1.14.0.tar.gz
 WORKDIR /root/fswatch-1.14.0
+EXPOSE 3000
 RUN ./configure
 RUN make 
 RUN make install 

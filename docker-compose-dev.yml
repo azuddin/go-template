@@ -13,25 +13,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=gorm
 
-  production:
-    hostname: app-production
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: base
-    environment:
-      PORT: "8081"
-    volumes:
-      - type: bind
-        source: .
-        target: /home/app
-    working_dir: /home/app
-    ports:
-      - "8081:8081"
-    command: bash -c "./scripts/production.sh"
-
-  development:
+  app:
     hostname: app-development
     restart: unless-stopped
     build:
@@ -44,5 +26,5 @@ services:
         target: /home/app
     working_dir: /home/app
     ports:
-      - "8080:8080"
+      - "3000:3000"
     command: bash -c "go mod download && make serve"

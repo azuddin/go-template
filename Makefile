@@ -18,7 +18,9 @@ restart: kill before start
 	@echo "STARTED" && printf '%*s\n' "40" '' | tr ' ' -
 	
 .PHONY: serve restart kill before start 
- 
+
+# Serve
+
 start-docker:
 	docker-compose -f docker-compose-dev.yml build
 	docker-compose -f docker-compose-dev.yml up

@@ -1,25 +1,25 @@
-- Start docker by run
+1. Start docker by run
 
-  ```
-  make start-docker
-  ```
+   ```
+   make start
+   ```
 
-- When want to run go command, ssh into docker first by running
+2. When want to run go command, ssh into docker first by running
 
-  ```
-  make ssh
-  ```
+   ```
+   make ssh
+   ```
 
-- then can start install your go dependency.
+3. Then can start install your go dependency.
 
-  e.g.:
+   e.g.:
 
-  ```
-  go get github.com/gofiber/fiber/v2
-  ```
+   ```
+   go get github.com/gofiber/fiber/v2
+   ```
 
-  or
+   or
 
-  ```
-  go get -u github.com/gin-gonic/gin
-  ```
+   ```
+   go get -u github.com/gin-gonic/gin
+   ```

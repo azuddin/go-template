@@ -9,22 +9,19 @@ services:
     ports:
       - "5432:5432"
     environment:
+      - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=gorm
 
-  app:
-    hostname: app-development
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev
-    volumes:
-      - type: bind
-        source: .
-        target: /home/app
-    working_dir: /home/app
+  api:
+    # refer to -> https://github.com/cosmtrek/air#docker-compose
+    image: cosmtrek/air
+    working_dir: /app
     ports:
-      - "3000:3000"
-    command: bash -c "go mod download && make serve"
+      - 3000:3000
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db

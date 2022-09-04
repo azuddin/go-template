@@ -1,20 +1,19 @@
-# Dockerfile References: https://docs.docker.com/engine/reference/builder/
+FROM golang:1.17-alpine as build
 
-FROM golang:1.17-alpine as base
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
 WORKDIR /home/app/src
 
-# DEV 
-FROM base as dev 
-RUN apk add --no-cache autoconf automake libtool gettext gettext-dev make g++ texinfo curl
-# fswatch is not available at alpine packages
-WORKDIR /root
-RUN wget https://github.com/emcrisostomo/fswatch/releases/download/1.14.0/fswatch-1.14.0.tar.gz
-RUN tar -xvzf fswatch-1.14.0.tar.gz
-WORKDIR /root/fswatch-1.14.0
+COPY . .
+
+RUN go mod download
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o app .
+
+FROM alpine:latest
+
+WORKDIR /app
+
+COPY --from=build /home/app/src/app .
+
 EXPOSE 3000
-RUN ./configure
-RUN make 
-RUN make install 
-WORKDIR /home/app/src
+
+CMD [ "./app" ]

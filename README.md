@@ -23,3 +23,10 @@
    ```
    go get -u github.com/gin-gonic/gin
    ```
+
+   or
+
+   ```
+   go get -u github.com/gorilla/mux
+   ```
+
